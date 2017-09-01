@@ -23,7 +23,7 @@ $(function(){
     const cha = xStart-xEnd;
     if(xEnd<xStart && cha>130 && xMt<=gb ) {
       const h = 100 - cha/maxHeight*100;
-      $('.index').height(h+'%');
+      $('.index').height(gb+'%');
       xMt = cha/maxHeight*100
     }
   })
@@ -32,7 +32,9 @@ $(function(){
     xEnd = disY;
     const xdiff = xStart - xEnd;
     if(xdiff>0){ // 向上滑
+      if(xMt<=gb){
 
+      }
     }else { // 向下滑
 
     }
