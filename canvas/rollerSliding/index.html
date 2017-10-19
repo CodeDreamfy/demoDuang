@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #app { margin: 100px auto; display: block;}
+  </style>
+</head>
+<body>
+  <canvas id="app" width="618" height="86"></canvas>
+
+  <script>
+    var $elem = document.getElementById('app');
+    var ctx = $elem.getContext('2d');
+    var w = $elem.clientWidth, h = $elem.clientHeight;
+    console.log(w,h)
+    // radians=(Math.PI/180)*degrees
+    var sAng = -(Math.PI/180)*210;
+    var eAng = -(Math.PI/180)*(330);
+    ctx.save();
+    ctx.beginPath();
+    var lineargradient = ctx.createLinearGradient(0,0,w,0);
+    lineargradient.addColorStop(0, 'rgba(248, 248, 248, 1)');
+    lineargradient.addColorStop(0.5, 'rgba(95, 203, 253, 1)');
+    lineargradient.addColorStop(0.6, 'rgba(210, 233, 233, 1)');
+    lineargradient.addColorStop(1, 'rgba(248, 248, 248, 1)');
+    ctx.strokeStyle = lineargradient;
+    ctx.lineWidth = 5;
+    ctx.arc(w/2, -660, 712, sAng, eAng, true);
+    ctx.stroke();
+    ctx.restore();
+    function radians() {
+      
+    }
+    function roundBtn (x, y) {
+      ctx.beginPath();
+      ctx.fillStyle='#fff';
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = "rgba(95, 203, 253, 0.5)";
+      ctx.arc(w/2, 50, 28, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    
+  </script>
+</body>
+</html>
