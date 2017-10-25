@@ -6,48 +6,90 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
+    * { margin: 0; padding: 0;}
     #app { margin: 100px auto; display: block;}
   </style>
 </head>
 <body>
-  <canvas id="app" width="618" height="86"></canvas>
+  <canvas id="app"></canvas>
 
   <script>
-    var $elem = document.getElementById('app');
-    var ctx = $elem.getContext('2d');
-    var w = $elem.clientWidth, h = $elem.clientHeight;
-    console.log(w,h)
-    // radians=(Math.PI/180)*degrees
-    var sAng = -(Math.PI/180)*210;
-    var eAng = -(Math.PI/180)*(330);
-    ctx.save();
-    ctx.beginPath();
-    var lineargradient = ctx.createLinearGradient(0,0,w,0);
-    lineargradient.addColorStop(0, 'rgba(248, 248, 248, 1)');
-    lineargradient.addColorStop(0.5, 'rgba(95, 203, 253, 1)');
-    lineargradient.addColorStop(0.6, 'rgba(210, 233, 233, 1)');
-    lineargradient.addColorStop(1, 'rgba(248, 248, 248, 1)');
-    ctx.strokeStyle = lineargradient;
-    ctx.lineWidth = 5;
-    ctx.arc(w/2, -660, 712, sAng, eAng, true);
-    ctx.stroke();
-    ctx.restore();
-    function radians() {
-      
-    }
-    function roundBtn (x, y) {
-      ctx.beginPath();
-      ctx.fillStyle='#fff';
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-      ctx.shadowBlur = 6;
-      ctx.shadowColor = "rgba(95, 203, 253, 0.5)";
-      ctx.arc(w/2, 50, 28, 0, 2*Math.PI);
-      ctx.fill();
-      ctx.restore();
-    }
+    window.onload = function(){
 
+      var $elem = document.getElementById('app');
+      $elem.setAttribute('width', document.body.offsetWidth);
+      $elem.setAttribute('height', 86);
+      var ctx = $elem.getContext('2d');
+      var w = $elem.clientWidth, h = $elem.clientHeight;
+      // radians=(Math.PI/180)*degrees
+      
     
+      function radians(val) {
+        ctx.save();
+        var sAng = -(Math.PI/180)*210;
+        var eAng = -(Math.PI/180)*(330);
+        ctx.beginPath();
+        var lineargradient = ctx.createLinearGradient(0,0,w,0);
+        lineargradient.addColorStop(0, 'rgba(248, 248, 248, 1)');
+        lineargradient.addColorStop(val, 'rgba(95, 203, 253, 1)');
+        lineargradient.addColorStop(val+0.0001, 'rgba(248, 248, 248, 1)');
+        lineargradient.addColorStop(1, 'rgba(248, 248, 248, 1)');
+        ctx.strokeStyle = lineargradient;
+        ctx.lineWidth = 5;
+        ctx.arc(w/2, -660, 712, sAng, eAng, true);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function roundBtn (x, y) {
+        ctx.beginPath();
+        ctx.fillStyle='#fff';
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = "rgba(95, 203, 253, 0.5)";
+        ctx.arc(x, y, 18, 0, 2*Math.PI);
+        ctx.fill();
+        ctx.restore();
+      }
+      var atan1, atan2;
+      atanLeft = Math.atan2($elem.offsetTop, $elem.offsetLeft);
+      atanRight = Math.atan2($elem.offsetTop, $elem.offsetLeft+w);
+      atanCenter = Math.atan2($elem.offsetTop + 86, $elem.offsetLeft+w/2);
+      var initRadius = Math.abs(atanCenter/(atanRight - atanLeft));
+      radians(initRadius);
+      roundBtn( w*initRadius , 86-36);
+      function scale (end) {
+        var val = end - atanLeft;
+        console.log(val)
+        return Math.abs(val);
+      }
+      function clearCanvas () {
+        ctx.save();
+        ctx.clearRect(0, 0, w, h);
+        ctx.restore();
+      }
+      $elem.addEventListener('touchstart', function(e){
+        atan1 = (e.changedTouches[0].clientX - $elem.offsetLeft) / w;
+        console.log('touchstart：', atan1);
+        clearCanvas();
+        // console.log(scale(atan1))
+        radians(atan1);
+        roundBtn(e.changedTouches[0].clientX-$elem.offsetLeft, e.changedTouches[0].clientY-$elem.offsetTop-36)
+      })
+      $elem.addEventListener('touchmove', function(e){
+        atan2 = (e.changedTouches[0].clientX - $elem.offsetLeft) / w;
+        clearCanvas();
+        radians(atan2);
+        roundBtn(e.changedTouches[0].clientX-$elem.offsetLeft, e.changedTouches[0].clientY-$elem.offsetTop-36)
+      })
+      $elem.addEventListener('touchend', function(e){
+        atan2 = (e.changedTouches[0].clientX - $elem.offsetLeft) / w;
+        clearCanvas();
+        radians(atan2);
+        roundBtn(e.changedTouches[0].clientX-$elem.offsetLeft, e.changedTouches[0].clientY-$elem.offsetTop-36)
+      })
+    }
   </script>
 </body>
 </html>
