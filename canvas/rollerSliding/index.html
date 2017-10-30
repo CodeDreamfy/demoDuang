@@ -18,30 +18,33 @@
 
       var $elem = document.getElementById('app');
       $elem.setAttribute('width', document.body.offsetWidth);
-      $elem.setAttribute('height', 86);
+      $elem.setAttribute('height', 106);
       var ctx = $elem.getContext('2d');
       var w = $elem.clientWidth, h = $elem.clientHeight;
+      var R = 712;
       // radians=(Math.PI/180)*degrees
-      
+      ctx.translate(w/2, -626);
     
-      function radians(val) {
+      function radians(x, y) {
         ctx.save();
         var sAng = -(Math.PI/180)*210;
         var eAng = -(Math.PI/180)*(330);
         ctx.beginPath();
-        var lineargradient = ctx.createLinearGradient(0,0,w,0);
+        var lineargradient = ctx.createLinearGradient(-356,626,x, y);
+        console.log(x, y)
         lineargradient.addColorStop(0, 'rgba(248, 248, 248, 1)');
-        lineargradient.addColorStop(val, 'rgba(95, 203, 253, 1)');
-        lineargradient.addColorStop(val+0.0001, 'rgba(248, 248, 248, 1)');
+        lineargradient.addColorStop(0.9, 'rgba(95, 203, 253, 1)');
         lineargradient.addColorStop(1, 'rgba(248, 248, 248, 1)');
+        // lineargradient.addColorStop(val+0.0001, 'rgba(248, 248, 248, 1)');
+        // lineargradient.addColorStop(1, 'rgba(248, 248, 248, 1)');
         ctx.strokeStyle = lineargradient;
         ctx.lineWidth = 5;
-        ctx.arc(w/2, -660, 712, sAng, eAng, true);
+        ctx.arc(0, 0, 712, 0, 2*Math.PI, true);
         ctx.stroke();
         ctx.restore();
       }
 
-      function roundBtn (x, y) {
+      function roundBtn (x,y) {
         ctx.beginPath();
         ctx.fillStyle='#fff';
         ctx.shadowOffsetX = 0;
@@ -53,12 +56,12 @@
         ctx.restore();
       }
       var atan1, atan2;
-      atanLeft = Math.atan2($elem.offsetTop, $elem.offsetLeft);
-      atanRight = Math.atan2($elem.offsetTop, $elem.offsetLeft+w);
-      atanCenter = Math.atan2($elem.offsetTop + 86, $elem.offsetLeft+w/2);
-      var initRadius = Math.abs(atanCenter/(atanRight - atanLeft));
-      radians(initRadius);
-      roundBtn( w*initRadius , 86-36);
+      // atanLeft = Math.atan2($elem.offsetTop, $elem.offsetLeft);
+      // atanRight = Math.atan2($elem.offsetTop, $elem.offsetLeft+w);
+      // atanCenter = Math.atan2($elem.offsetTop + 86, $elem.offsetLeft+w/2);
+      // var initRadius = Math.abs(atanCenter/(atanRight - atanLeft));
+      radians(0,712);
+      roundBtn(0, 712);
       function scale (end) {
         var val = end - atanLeft;
         console.log(val)
@@ -66,29 +69,32 @@
       }
       function clearCanvas () {
         ctx.save();
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, w, h);
         ctx.restore();
       }
       $elem.addEventListener('touchstart', function(e){
-        atan1 = (e.changedTouches[0].clientX - $elem.offsetLeft) / w;
-        console.log('touchstart：', atan1);
         clearCanvas();
-        // console.log(scale(atan1))
-        radians(atan1);
-        roundBtn(e.changedTouches[0].clientX-$elem.offsetLeft, e.changedTouches[0].clientY-$elem.offsetTop-36)
+        var x = -w/2 + e.changedTouches[0].clientX-$elem.offsetLeft;
+        radians(x, distanceY(x));
+        roundBtn(x, distanceY(x))
       })
       $elem.addEventListener('touchmove', function(e){
-        atan2 = (e.changedTouches[0].clientX - $elem.offsetLeft) / w;
         clearCanvas();
-        radians(atan2);
-        roundBtn(e.changedTouches[0].clientX-$elem.offsetLeft, e.changedTouches[0].clientY-$elem.offsetTop-36)
+        var x = -w/2 + e.changedTouches[0].clientX-$elem.offsetLeft;
+        radians(x, distanceY(x));
+        roundBtn(x, distanceY(x))
       })
       $elem.addEventListener('touchend', function(e){
-        atan2 = (e.changedTouches[0].clientX - $elem.offsetLeft) / w;
         clearCanvas();
-        radians(atan2);
-        roundBtn(e.changedTouches[0].clientX-$elem.offsetLeft, e.changedTouches[0].clientY-$elem.offsetTop-36)
+        var x = -w/2 + e.changedTouches[0].clientX-$elem.offsetLeft;
+        radians(x , distanceY(x));
+        roundBtn(x,distanceY(x))
       })
+
+      function distanceY (x1) {
+        return Math.sqrt(Math.pow(R,2)-Math.pow(x1,2))
+      }
     }
   </script>
 </body>
