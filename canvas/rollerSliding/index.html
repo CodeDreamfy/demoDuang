@@ -11,6 +11,7 @@
   </style>
 </head>
 <body>
+  <canvas id="round"></canvas>
   <canvas id="app"></canvas>
 
   <script>
@@ -114,14 +115,17 @@
         return Math.sqrt(Math.pow(R,2)-Math.pow(x1,2))
       }
       function boundary (nX) {
-        console.log(nX)
-        if (nX <= -w/2) {
-          return -w/2
+        var result;
+        if (nX <= -w/2+20) {
+          result = -w/2+20
+        }else if(nX >= w/2-20) {
+          result = w/2-20
+        }else {
+          result = nX;
         }
-        if(nX >= w/2) {
-          return w/2
-        }
-        return nX
+        var min = -w/2+20, max = w/2-20;
+        console.log(Math.round((result-min)/(max-min)*11)+19);
+        return result
       }
     }
   </script>
