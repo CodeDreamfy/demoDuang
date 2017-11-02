@@ -13,10 +13,13 @@
 <body>
   <canvas id="round"></canvas>
   <canvas id="app"></canvas>
+  
 
+  <script src="main.js"></script>
   <script>
     window.onload = function(){
-
+      console.log(roller('round').bindEvent());
+      
       var $elem = document.getElementById('app');
       $elem.setAttribute('width', document.body.offsetWidth);
       $elem.setAttribute('height', 106);
