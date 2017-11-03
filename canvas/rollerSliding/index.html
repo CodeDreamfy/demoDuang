@@ -7,18 +7,19 @@
   <title>Document</title>
   <style>
     * { margin: 0; padding: 0;}
-    #app { margin: 100px auto; display: block;}
+    html { font-size: 13.33vw;}
+    #app { margin: 100px auto 0; display: block;}
   </style>
 </head>
 <body>
-  <canvas id="round"></canvas>
+  <!-- <canvas id="round"></canvas> -->
   <canvas id="app"></canvas>
   
 
   <script src="main.js"></script>
   <script>
     window.onload = function(){
-      console.log(roller('round').bindEvent());
+      console.log(roller('app').bindEvent());
       
       var $elem = document.getElementById('app');
       $elem.setAttribute('width', document.body.offsetWidth);
