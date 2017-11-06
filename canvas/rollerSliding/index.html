@@ -8,19 +8,28 @@
   <style>
     * { margin: 0; padding: 0;}
     html { font-size: 13.33vw;}
+    .div {
+      width: 100%; height: 106px;
+    }
     #app { margin: 100px auto 0; display: block;}
   </style>
 </head>
 <body>
   <!-- <canvas id="round"></canvas> -->
-  <canvas id="app"></canvas>
+  <div class="div">
+    <canvas id="app"></canvas>
+  </div>
   
 
   <script src="main.js"></script>
   <script>
     window.onload = function(){
-      console.log(roller('app').bindEvent());
-      
+      var s = roller('app', {
+        callBackAfter: function(){
+          console.log(this.process)
+        }
+      });
+      /*
       var $elem = document.getElementById('app');
       $elem.setAttribute('width', document.body.offsetWidth);
       $elem.setAttribute('height', 106);
@@ -53,12 +62,12 @@
           ctx.lineWidth = 5;
           ctx.arc(0, 0, 712, sAng, eAng, true);
           ctx.stroke();
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          // ctx.setTransform(1, 0, 0, 1, 0, 0);
           imgPath = ctx.getImageData(0,0, w, h);
           ctx.restore();
         }else {
           ctx.save();
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          // ctx.setTransform(1, 0, 0, 1, 0, 0);
           ctx.putImageData(imgPath, 0, 0);
           ctx.restore();
         }
@@ -131,6 +140,7 @@
         console.log(Math.round((result-min)/(max-min)*11)+19);
         return result
       }
+      */
     }
   </script>
 </body>
